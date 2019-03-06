@@ -17,7 +17,9 @@ Vue.use(VueRouter);
 import Login from './pages/Login';
 import Admin from './pages/Admin';
 import GoodsList from "./pages/goods/GoodsList"
+import Goodsadd from './pages/goods/Goods-add'
 import CategoryList from "./pages/category/CategoryList"
+
 
 
 // element-ui 3.注册插件
@@ -40,18 +42,12 @@ const routes = [
   {
     path: '/admin',
     component: Admin,
-    meta: '首页',
+    meta: '登录后台',
     redirect: '/admin/goods-list',
-    children: [{
-        path: 'goods-list',
-        component: GoodsList,
-        meta: '商品列表'
-      },
-      {
-        path: 'category-list',
-        component: CategoryList,
-        meta: '栏目列表'
-      },
+    children: [
+               {path: 'goods-list',component: GoodsList,meta: '商品列表'},
+               {path: 'category-list',component: CategoryList,meta: '栏目列表'},
+               {path:'goods-add',component:Goodsadd,meta:'账户管理'}
     ]
   }
 ]

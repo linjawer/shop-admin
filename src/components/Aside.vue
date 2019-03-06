@@ -83,9 +83,6 @@ export default {
       ]
     };
   },
-  methods: {
-    
-  },
   props:['isCollapse']
 };
 </script>

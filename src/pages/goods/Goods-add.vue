@@ -1,9 +1,9 @@
 <template>
-    <div>栏目</div>
+    <div>你好么</div>
 </template>
+
 <script>
 export default {
-    name
 
 }
 </script>
