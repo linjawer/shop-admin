@@ -18,8 +18,13 @@ import Login from './pages/Login';
 import Admin from './pages/Admin';
 import GoodsList from "./pages/goods/GoodsList"
 import Goodsadd from './pages/goods/Goods-add'
+import GoodsEdit from './pages/goods/GoodsEdit'
 import CategoryList from "./pages/category/CategoryList"
+import CategoryAdd from "./pages/category/CategoryAdd";
 
+
+// 引入vuex的仓库
+// import store from "./store";
 
 
 // element-ui 3.注册插件
@@ -47,7 +52,9 @@ const routes = [
     children: [
                {path: 'goods-list',component: GoodsList,meta: '商品列表'},
                {path: 'category-list',component: CategoryList,meta: '栏目列表'},
-               {path:'goods-add',component:Goodsadd,meta:'账户管理'}
+               {path: 'goods-edit/:id',component: GoodsEdit,meta: '编辑商品'},
+               {path:'goods-add',component:Goodsadd,meta:'账户管理'},
+               {path: "category-add", component: CategoryAdd, meta: "新增栏目"} 
     ]
   }
 ]
@@ -55,12 +62,15 @@ const routes = [
 const router = new VueRouter({
   routes
 })
+// 给axios自动
+axios.defaults.baseURL = 'http://localhost:8899';
 
 //给vue构造函数的原型链添加$axios
 Vue.prototype.$axios = axios;
-
 new Vue({
   render: h => h(App),
   //挂载到跟实例
-  router
+  router,
+  //挂载store
+  // store,
 }).$mount('#app')

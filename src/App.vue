@@ -6,6 +6,17 @@
 <script>
 export default {
   name: "app",
+
+  mounted:function () {
+   //请求是否登录的接口,登录接口
+   this.$axios.get('/admin/account/islogin').then(res=>{
+     console.log(res);
+     if(res.data.code=='nologin'){
+       //跳转页面
+      // this.$router.push('/admin/login')
+     }
+   })   
+  }
 }
 </script>
 

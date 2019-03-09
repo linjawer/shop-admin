@@ -9,7 +9,7 @@
           <el-option
             v-for="(sub,idden) in item.group"
             :key="idden"
-            :label="sub.title"
+            :label="`${sub.category_id} ${sub.title}`"
             :value="sub.category_id"
           ></el-option>
         </el-option-group>
@@ -38,13 +38,15 @@
     </el-form-item>
 
     <el-form-item label="封面图片">
-      <!-- 单张图片上传,记得图片请求地址是来自后台文档数据的请求地址 -->
+      <!-- 单张图片上传 -->
+      <!-- file-list初始化上传组件的内容 -->
       <el-upload
         class="avatar-uploader"
         action="http://localhost:8899/admin/article/uploadimg"
         :show-file-list="false"
         :on-success="handleAvatarSuccess"
         :before-upload="beforeAvatarUpload"
+        :file-list="form.imgList"
       >
         <img v-if="imageUrl" :src="imageUrl" class="avatar">
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -74,6 +76,7 @@
         :on-preview="handlePictureCardPreview"
         :on-remove="handleRemove"
         :on-success="wenjianshangc"
+        :file-list="form.fileList"
       >
         <i class="el-icon-plus"></i>
       </el-upload>
@@ -92,8 +95,8 @@
     </el-form-item>
 
     <el-form-item>
-      <el-button type="primary" @click="onSubmit">立即创建</el-button>
-      <el-button>取消</el-button>
+      <el-button type="primary" @click="onSubmit">保存</el-button>
+      <el-button @click="$router.back()">取消</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -124,20 +127,22 @@ export default {
         content: "",
         //封面图片imgList,是一个数组，通常只有一张
         // 封面图片
-        imgList: [],
+        imgList:[],
         //文章附件数组,可以有多个附件
         fileList:[],
         is_slide: false
       },
 
       // 头像图片
-      imageUrl: "",
+      imageUrl:"",
       // 图片墙的预览图片链接
-      dialogImageUrl: "",
+      dialogImageUrl:"",
       // 是否预览图片
       dialogVisible: false,
       //把分类id的数据添加到data里边
-      opantion: []
+      opantion:[],
+      // 商品id
+      id:''
     };
   },
   // 注册组件
@@ -147,19 +152,17 @@ export default {
   methods: {
     onSubmit() {
       //点击提交表单的时候,进行ajax请求,记得是在文档里边的,所属的是新增商品这一块
-
      /* 
      新增商品
      开发者可以通过本接口实现商品数据的新增
      */
       this.$axios({
-        method:'POST',
-        url:'/admin/goods/add/goods',
+        method: "POST",
+        url: `/admin/goods/edit/${this.id}`,
         data:this.form,
         //处理跨域问题
         withCredentials: true,
       }).then(res=>{
-        /* message和status从res.data里边解构出来 */
         const {message,status}=res.data;
         if(status==0){
           //请求成功
@@ -181,11 +184,12 @@ export default {
         this.imageUrl=window.URL.createObjectURL(file.raw);
     
         this.form.imgList=[res];
+
     },
 
     // 多张图片上传成功后的回调函数
     wenjianshangc(res){
-      this.form.fileList.push(res)  
+      this.form.fileList.push(res)
     },
     //判断图片是否大于2M
     beforeAvatarUpload(file) {
@@ -197,7 +201,7 @@ export default {
     },
     // 移除选中的图片
     handleRemove(file, fileList) {
-      console.log(file, fileList);
+      this.form.fileList = fileList 
     },
     // 点击预览图片
     handlePictureCardPreview(file) {
@@ -212,7 +216,34 @@ export default {
   获取频道下的所有分类数据
   */
   mounted() {
-    this.$axios({
+    /* 根据id获取商品数据*/
+    // 开发者可以通过本接口获取某个某个商品的详细数据
+      const {id} =this.$route.params;
+      // 存储id
+      this.id=id
+
+      this.$axios({
+        url: `/admin/goods/getgoodsmodel/${id}`
+      }).then(res=>{
+        console.log(res);
+        console.log(res.data.message);
+        const {message} = res.data;
+        //初始化表单的值
+        this.form=message;
+
+        //预览图片
+        this.imageUrl = message.imgList[0].shorturl;
+
+        // this.form.fileList=message.fileList.map(v=>{
+        //      return{
+        //          ...v,
+        //          url:`http://localhost:8899`+v.shorturl
+        //      }
+        // })
+      })
+
+      //请求分类的数据
+   this.$axios({
       method: "GET",
       url: "/admin/category/getlist/goods"
     }).then(res => {
@@ -225,11 +256,11 @@ export default {
         if (v.parent_id == 0) {
           v.group = [];
           opantion.push(v);
-          console.log(opantion);
+          // console.log(opantion);
         } else {
           //子类别判断
           opantion.forEach(item => {
-            console.log(item);
+            // console.log(item);
             //如果成立的话，顶级下边就有一个子选项
             if (item.category_id == v.parent_id) {
               item.group.push(v);
@@ -238,7 +269,7 @@ export default {
         }
       });
       this.opantion = opantion;
-      console.log(this.opantion);
+      // console.log(this.opantion);
     });
   }
 };

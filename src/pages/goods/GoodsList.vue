@@ -25,7 +25,7 @@
         <template slot-scope="scope">
           <!-- 记得要用上flex的话，必须是要加上type='flex' 用上模板的话是要加上slot-scope='scope' -->
           <el-row type='flex' align='middle'>
-            <img :src="scope.row.imgurl" class="good-img" />
+            <img :src="`http://localhost:8899/${scope.row.img_url}`" class="good-img" />
             <p>{{scope.row.title}}</p>
           </el-row>
         </template>
@@ -108,6 +108,7 @@ export default {
     },
     handleEdit(index, row) {
       // console.log(index, row);
+      this.$router.push(`/admin/goods-edit/${row.id}`)
     },
     // 切换显示条数时候触发
     handleSizeChange(num) {
@@ -186,10 +187,4 @@ export default {
   /* 保证当前的元素不会被挤压 */
   flex-shrink: 0;
 }
-
-
-
-
-
-
 </style>
