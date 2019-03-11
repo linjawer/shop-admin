@@ -11,7 +11,7 @@
     <!-- 右侧内容区域 -->
     <el-container>
       <el-header >
-       <app-header @onChange='changeCollapse'></app-header>
+        <app-header @onChange='changeCollapse'></app-header>
       </el-header>
       <!-- 主体 -->
       <el-main> 

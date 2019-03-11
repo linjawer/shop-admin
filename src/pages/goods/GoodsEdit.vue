@@ -242,7 +242,7 @@ export default {
         // })
       })
 
-      //请求分类的数据
+//请求分类的数据
    this.$axios({
       method: "GET",
       url: "/admin/category/getlist/goods"

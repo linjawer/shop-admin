@@ -85,7 +85,7 @@ export default {
       let arr = [];
       //递归自己调用自己
       function loop(arr, item) {
-        //最重要的是判断，item的id是否和父级的category_id相等,item是父级
+        //最重要的是判断，子的item的parent_id是否和父的categorygory_id是否相等
         //如果相等的话就把item加入到当前分类下的children
         arr.forEach(v => {
           if (v.category_id == item.parent_id) {
@@ -133,7 +133,7 @@ export default {
       // 修改排序
       this.$axios({
        method: "POST",
-       url: `/admin/category/edit/${data.category_id}`,
+       url:`/admin/category/edit/${data.category_id}`,
        data,
        //post请求要处理跨域
           withCredentials: true

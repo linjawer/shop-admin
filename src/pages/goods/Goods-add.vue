@@ -4,7 +4,9 @@
     <el-form-item label="所属类别">
       <el-select v-model="form.category_id" placeholder="请选择活动区域">
         <!-- 顶级渲染，是渲染第一层 -->
-        <el-option-group v-for="(item,index) in opantion" :key="index" :label="item.title">
+        <el-option-group v-for="(item,index) in opantion"
+         :key="index"
+          :label="item.title">
           <!-- 顶级下边的渲染，第二层渲染 -->
           <el-option
             v-for="(sub,idden) in item.group"
@@ -146,8 +148,6 @@ export default {
   },
   methods: {
     onSubmit() {
-      //点击提交表单的时候,进行ajax请求,记得是在文档里边的,所属的是新增商品这一块
-
      /* 
      新增商品
      开发者可以通过本接口实现商品数据的新增

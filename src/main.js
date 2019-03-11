@@ -24,7 +24,7 @@ import CategoryAdd from "./pages/category/CategoryAdd";
 
 
 // 引入vuex的仓库
-// import store from "./store";
+import store from "./store";
 
 
 // element-ui 3.注册插件
@@ -72,5 +72,5 @@ new Vue({
   //挂载到跟实例
   router,
   //挂载store
-  // store,
+  store,
 }).$mount('#app')

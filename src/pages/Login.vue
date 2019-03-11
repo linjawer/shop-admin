@@ -29,31 +29,33 @@ export default {
   methods: {
     submitForm(formName) {
       // 获取数据
-      console.log(this.formData);
-      this.$axios({
-        url: "/admin/account/login",
-        method: "POST",
-        data: this.formData,
-        // 处理跨域
-         withCredentials: true,
-      }).then(res => {
-        console.log(res);
-        // 解构赋值将右边的值赋值给到左边的值
-        const { message, status } = res.data;
-        if (status == 1) {
-          // 登录失败
-          this.$message.error(message);
-        } else {
-          // 登录成功返回上一页
-          this.$router.back();
-        }
-      });
+      // console.log(this.formData);
+      // this.$axios({
+      //   url: "/admin/account/login",
+      //   method: "POST",
+      //   data: this.formData,
+      //   // 处理跨域
+      //    withCredentials: true,
+      // }).then(res => {
+      //   console.log(res);
+      //   // 解构赋值将右边的值赋值给到左边的值
+      //   const { message, status } = res.data;
+      //   if (status == 1) {
+      //     // 登录失败
+      //     this.$message.error(message);
+      //   } else {
+      //     // 登录成功返回上一页
+      //     this.$router.back();
+      //   }
+      // });
       // this.$router.back();
 
       // 调用
       // this.$store.dispatch('login',this.formData,()=>{
       //
       // })
+      // 记得user/是命名空间
+      this.$store.dispatch('user/login',this.formData)
     },
     resetForm(formName) {
       this.formData = {

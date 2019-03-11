@@ -54,15 +54,13 @@ export default {
               url: `/admin/category/add/goods`,
               data: this.form,
               // 处理跨域
-                withCredentials: true,
+              withCredentials: true,
           }).then(res =>{
               console.log(res)
           })
       }
   },
-
   mounted() {
-
     this.$axios({
       url: "/admin/category/getlist/goods"
     }).then(res => {
